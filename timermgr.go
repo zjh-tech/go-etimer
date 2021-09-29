@@ -28,7 +28,7 @@ func NewTimerMgr() *TimerMgr {
 func (t *TimerMgr) Update(loopCount int) bool {
 	curMillSecond := getMillSecond()
 	if curMillSecond < t.lastTick {
-		ELog.ErrorA("[Timer] Time Rollback")
+		ELog.Error("[Timer] Time Rollback")
 		return false
 	}
 
@@ -36,7 +36,7 @@ func (t *TimerMgr) Update(loopCount int) bool {
 	delta := curMillSecond - t.lastTick
 	if delta > int64(loopCount) {
 		delta = int64(loopCount)
-		ELog.WarnA("[Timer] Time Forward")
+		ELog.Warn("[Timer] Time Forward")
 	}
 	t.lastTick += delta
 
@@ -60,7 +60,7 @@ func (t *TimerMgr) Update(loopCount int) bool {
 			timer.rotation--
 			if timer.rotation < 0 {
 				busy = true
-				ELog.DebugAf("[Timer] Trigger  id %v-%v", timer.uid, timer.eid)
+				ELog.Debugf("[Timer] Trigger  id %v-%v", timer.uid, timer.eid)
 				slotList.Remove(e)
 				timer.Call()
 				if timer.repeat && timer.state == TimerRunningState {
@@ -69,7 +69,7 @@ func (t *TimerMgr) Update(loopCount int) bool {
 					t.ReleaseTimer(timer)
 				}
 			} else {
-				ELog.DebugAf("[Timer]  id %v-%v-%v remain rotation = %v %v", timer.uid, timer.eid, timer.rotation+1, MaxSlotSize)
+				ELog.Debugf("[Timer]  id %v-%v-%v remain rotation = %v %v", timer.uid, timer.eid, timer.rotation+1, MaxSlotSize)
 			}
 
 			e = next
@@ -109,17 +109,17 @@ func (t *TimerMgr) AddSlotTimer(timer *Timer) {
 		timer.rotation--
 	}
 	t.slotList[timer.slot].PushBack(timer)
-	ELog.DebugAf("[Timer] AddSlotTimer  id %v-%v-%v delay=%v,curslot=%v,slot=%v,rotation=%v", timer.uid, timer.eid, timer.delay, t.curSlot, timer.slot, tempRotation)
+	ELog.Debugf("[Timer] AddSlotTimer  id %v-%v-%v delay=%v,curslot=%v,slot=%v,rotation=%v", timer.uid, timer.eid, timer.delay, t.curSlot, timer.slot, tempRotation)
 }
 
 func (t *TimerMgr) ReleaseTimer(timer *Timer) {
 	if timer != nil {
 		if timer.state == TimerRunningState {
-			ELog.DebugAf("[Timer] ReleaseTimer  id %v-%v Running State", timer.uid, timer.eid)
+			ELog.Debugf("[Timer] ReleaseTimer  id %v-%v Running State", timer.uid, timer.eid)
 		} else if timer.state == TimerKilledState {
-			ELog.DebugAf("[Timer] ReleaseTimer id %v-%v Killed State", timer.uid, timer.eid)
+			ELog.Debugf("[Timer] ReleaseTimer id %v-%v Killed State", timer.uid, timer.eid)
 		} else {
-			ELog.DebugAf("[Timer] ReleaseTimer id %v-%v Unknow State", timer.uid, timer.eid)
+			ELog.Debugf("[Timer] ReleaseTimer id %v-%v Unknow State", timer.uid, timer.eid)
 		}
 
 		timer.cb = nil

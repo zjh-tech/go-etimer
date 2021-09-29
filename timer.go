@@ -33,13 +33,13 @@ func newTimer(eid uint32, uid uint64, delay uint64, repeat bool, cb FuncType, ar
 
 func (t *Timer) Kill() {
 	t.state = TimerKilledState
-	ELog.DebugAf("[Timer] id %v-%v Kill State", t.uid, t.eid)
+	ELog.Debugf("[Timer] id %v-%v Kill State", t.uid, t.eid)
 }
 
 func (t *Timer) Call() {
 	defer func() {
 		if err := recover(); err != nil {
-			ELog.ErrorAf("[Timer] func%v args:%v call err: %v", reflect.TypeOf(t.cb).Name(), t.args, err)
+			ELog.Errorf("[Timer] func%v args:%v call err: %v", reflect.TypeOf(t.cb).Name(), t.args, err)
 		}
 	}()
 

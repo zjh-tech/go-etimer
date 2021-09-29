@@ -80,12 +80,12 @@ func (t *TimerRegister) addTimer(id uint32, delay uint64, repeat bool, cb FuncTy
 
 	timer := t.mgr.CreateSlotTimer(id, delay, repeat, cb, args, t)
 	if timer == nil {
-		ELog.ErrorAf("[Timer] CreateSlotTimer Erorr id = %v,delay = %v", id, delay)
+		ELog.Errorf("[Timer] CreateSlotTimer Erorr id = %v,delay = %v", id, delay)
 		return false
 	}
 
 	if delay == 0 {
-		ELog.WarnA("[Timer] Delay = 0")
+		ELog.Warn("[Timer] Delay = 0")
 		timer.Call()
 		return true
 	}
