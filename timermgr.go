@@ -87,7 +87,9 @@ func (t *TimerMgr) Update(loopCount int) bool {
 }
 
 func (t *TimerMgr) UnInit() {
-	ELog.Info("[Timer] Stop")
+	if ELog != nil {
+		ELog.Info("[Timer] Stop")
+	}
 }
 
 func (t *TimerMgr) CreateSlotTimer(eid uint32, delay uint64, repeat bool, cb FuncType, args ArgType, r *TimerRegister) *Timer {
