@@ -4,7 +4,7 @@ type FuncType func(...interface{})
 type ArgType []interface{}
 
 type ITimerMgr interface {
-	Update(loopCount int) bool
+	Run(loopCount int) bool
 	CreateSlotTimer(eid uint32, delay uint64, repeat bool, cb FuncType, args ArgType, r *TimerRegister) *Timer
 	AddSlotTimer(timer *Timer)
 }

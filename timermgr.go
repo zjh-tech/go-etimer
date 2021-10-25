@@ -25,7 +25,7 @@ func NewTimerMgr() *TimerMgr {
 	return mgr
 }
 
-func (t *TimerMgr) Update(loopCount int) bool {
+func (t *TimerMgr) Run(loopCount int) bool {
 	curMillSecond := getMillSecond()
 	if curMillSecond < t.lastTick {
 		ELog.Error("[Timer] Time Rollback")
