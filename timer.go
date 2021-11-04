@@ -2,6 +2,7 @@ package etimer
 
 import (
 	"reflect"
+	"runtime/debug"
 )
 
 type Timer struct {
@@ -39,7 +40,7 @@ func (t *Timer) Kill() {
 func (t *Timer) Call() {
 	defer func() {
 		if err := recover(); err != nil {
-			ELog.Errorf("[Timer] func%v args:%v call err: %v", reflect.TypeOf(t.cb).Name(), t.args, err)
+			ELog.Errorf("[Timer] Func%v Args:%v Call Err: %v Stack=%v", reflect.TypeOf(t.cb).Name(), t.args, err, string(debug.Stack()))
 		}
 	}()
 
